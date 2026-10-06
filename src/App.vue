@@ -477,7 +477,7 @@ function save() {
               id="target-path"
               v-model="targetPath"
               class="target-input"
-              placeholder="e.g. amount.min" /></label
+              placeholder="e.g. amount.min or fieldCheck.details[].checkType" /></label
           ><label class="label" for="target-type"
             >Output type<select id="target-type" v-model="targetType">
               <option v-for="type in dataTypes" :key="type" :value="type">
