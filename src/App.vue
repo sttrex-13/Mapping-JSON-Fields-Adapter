@@ -422,7 +422,7 @@ function save() {
         ><textarea
           v-model="manualData"
           rows="10"
-          placeholder='{ "programGroup": "TITLE_LOAN", "basicInformation": { "programCode": "Program_Car_01" } }'
+          placeholder='{ "programGroup": "TITLE", "basicInformation": { "programCode": "Program_01" } }'
         ></textarea>
       </label>
       <div class="manual-actions">
