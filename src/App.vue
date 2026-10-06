@@ -143,7 +143,7 @@ function applyParsedData(parsed: unknown, sourceLabel: string) {
   sourceValues.value = values;
   selected.value = output[0] ?? null;
   if (selected.value) {
-    targetPath.value = suggestion(selected.value.path);
+    targetPath.value = "";
     targetType.value = selected.value.type;
   } else {
     targetPath.value = "";
@@ -227,21 +227,8 @@ async function importConfig(event: Event) {
 }
 function pick(field: SourceField) {
   selected.value = field;
-  targetPath.value = suggestion(field.path);
+  targetPath.value = "";
   targetType.value = field.type;
-}
-function suggestion(path: string) {
-  const last = labelFor(path);
-  const presets: Record<string, string> = {
-    programGroup: "meta.group",
-    programCode: "program.code",
-    programName: "program.name",
-    minAmount: "amount.min",
-    maxAmount: "amount.max",
-    type: "fieldCheck.details[].checkType",
-    priority: "fieldCheck.details[].meta.priority",
-  };
-  return presets[last] ?? last;
 }
 function addRule() {
   if (!selected.value || !targetPath.value.trim()) return;
