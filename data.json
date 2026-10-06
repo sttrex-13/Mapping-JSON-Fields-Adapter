@@ -1,0 +1,17 @@
+{
+		"programGroup": "TITLE_LOAN",
+		"basicInformation": {
+				"programCode": "Program_Car_01",
+				"programName": "test"
+		},
+		"customer": {
+			"requiredFieldCheckDetail": [
+				{ "type": "HOME", "meta": { "priority": 1 } },
+				{ "type": "WORKPLACE", "meta": { "priority": 2 } }
+			]
+		},
+		"pricing": {
+			"minAmount": 50000,
+			"maxAmount": 2000000
+		}
+	}
