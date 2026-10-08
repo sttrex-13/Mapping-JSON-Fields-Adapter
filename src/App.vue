@@ -33,6 +33,8 @@ const uploadError = ref("");
 const configMessage = ref("");
 const configError = ref("");
 const saved = ref(false);
+const copyMessage = ref("");
+const copyError = ref("");
 
 const visibleFields = computed(() => {
   const query = sourceSearch.value.trim().toLowerCase();
@@ -63,6 +65,7 @@ const resolvedTargetPath = computed(() => {
 const canAddRule = computed(() =>
   Boolean(selected.value && resolvedTargetPath.value),
 );
+const outputJson = computed(() => JSON.stringify(buildOutput(), null, 2) ?? "{}");
 const outputPreview = computed(() => highlightJson(buildOutput()));
 const missingRules = computed(() =>
   rules.value.filter(
@@ -388,6 +391,27 @@ function clearData() {
 
 function save() {
   saved.value = true;
+}
+
+async function copyOutput() {
+  copyMessage.value = "";
+  copyError.value = "";
+  try {
+    await navigator.clipboard.writeText(outputJson.value);
+    copyMessage.value = "JSON copied";
+  } catch {
+    copyError.value = "Could not copy JSON. Check clipboard permissions.";
+  }
+}
+
+function downloadOutput() {
+  const file = new Blob([outputJson.value], { type: "application/json" });
+  const url = URL.createObjectURL(file);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "mapping-output.json";
+  link.click();
+  URL.revokeObjectURL(url);
 }
 </script>
 
@@ -768,7 +792,7 @@ function save() {
                   type="button"
                   :aria-label="`Remove ${rule.source}`"
                   @click="removeRule(rule.id)"
-                >
+                > x
                 </button>
               </div>
             </li>
@@ -778,16 +802,39 @@ function save() {
         <aside
           class="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
         >
-          <div class="mb-4 flex items-center gap-3">
+          <div class="mb-4 flex flex-wrap items-center gap-3">
             <span
               class="grid h-7 w-7 place-items-center rounded-lg bg-emerald-50 text-xs font-bold text-emerald-700"
               >4</span
             >
-            <div>
+            <div class="mr-auto">
               <h2 class="font-semibold text-slate-900">Preview output</h2>
               <p class="mt-1 text-sm text-slate-500">ตรวจผลลัพธ์ก่อนบันทึก</p>
             </div>
+            <button
+              class="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-blue-500"
+              type="button"
+              @click="copyOutput"
+            >
+              Copy JSON
+            </button>
+            <button
+              class="rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-blue-500"
+              type="button"
+              @click="downloadOutput"
+            >
+              Export JSON
+            </button>
           </div>
+          <p
+            v-if="copyMessage || copyError"
+            class="mb-3 text-xs"
+            :class="copyError ? 'text-red-600' : 'text-emerald-700'"
+            role="status"
+            aria-live="polite"
+          >
+            {{ copyError || copyMessage }}
+          </p>
           <div
             v-if="missingRules.length"
             class="mb-3 grid gap-1 rounded-xl bg-amber-50 p-3 text-sm text-amber-800"
