@@ -567,10 +567,10 @@ function downloadOutput() {
       </section>
 
       <section
-        class="grid gap-6 xl:grid-cols-[minmax(230px,0.8fr)_minmax(390px,1.3fr)_minmax(280px,1fr)]" 
+        class="gap-6 flex" 
       >
         <aside
-          class="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          class="min-w-0 w-3/5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
         >
           <div class="mb-4">
             <div class="flex items-center gap-3">
@@ -587,7 +587,7 @@ function downloadOutput() {
             class="mb-3 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
             placeholder="Search fields"
           />
-          <ul class="grid max-h-200 gap-2 overflow-auto pr-1">
+          <ul class="grid max-h-220 gap-2 overflow-auto pr-1">
             <li v-for="field in visibleFields" :key="field.path">
               <button
                 :class="[
@@ -627,7 +627,7 @@ function downloadOutput() {
         </aside>
 
         <section
-          class="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm w-"
+          class="min-w-0 rounded-2xl border border-slate-200 w-2/3 p-5 shadow-sm w-"
         >
           <div class="mb-5">
             <div class="flex items-center gap-3">
@@ -800,7 +800,7 @@ function downloadOutput() {
         </section>
 
         <aside
-          class="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          class="min-w-0 w-3/5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
         >
           <div class="mb-4 flex flex-wrap items-center gap-3">
             <span
@@ -816,14 +816,14 @@ function downloadOutput() {
               type="button"
               @click="copyOutput"
             >
-              Copy JSON
+              Copy
             </button>
             <button
               class="rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-blue-500"
               type="button"
               @click="downloadOutput"
             >
-              Export JSON
+              Export
             </button>
           </div>
           <p
@@ -848,7 +848,7 @@ function downloadOutput() {
             >
           </div>
           <pre
-            class="min-h-105 max-h-220 overflow-auto rounded-xl bg-slate-950 p-4 text-xs leading-6 text-slate-100"
+            class="min-h-105 max-h-235 overflow-auto rounded-xl bg-slate-950 p-4 text-xs leading-6 text-slate-100"
             v-html="outputPreview"
           ></pre
           >
