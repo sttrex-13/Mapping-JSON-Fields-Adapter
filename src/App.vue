@@ -3,7 +3,7 @@ import { computed, ref } from "vue";
 
 type DataType = "string" | "number" | "boolean" | "date" | "object" | "array";
 type SourceField = { path: string; label: string; type: DataType };
-type Rule = { id: number; source: string; target: string; dataType: DataType };
+type Rule = { id: number; source: string; target: string };
 
 const defaultValues: Record<string, unknown> = {};
 const defaultFields: SourceField[] = [];
@@ -13,7 +13,6 @@ const rules = ref<Rule[]>([]);
 const sourceSearch = ref("");
 const selected = ref<SourceField | null>(null);
 const targetPath = ref("");
-const targetType = ref<DataType>("string");
 const draggingId = ref<number | null>(null);
 const uploadMessage = ref("");
 const uploadError = ref("");
@@ -21,14 +20,6 @@ const configMessage = ref("");
 const configError = ref("");
 const manualData = ref("");
 const saved = ref(false);
-const dataTypes: DataType[] = [
-  "string",
-  "number",
-  "boolean",
-  "date",
-  "object",
-  "array",
-];
 
 const visibleFields = computed(() => {
   const query = sourceSearch.value.trim().toLowerCase();
@@ -142,13 +133,7 @@ function applyParsedData(parsed: unknown, sourceLabel: string) {
   fields.value = output;
   sourceValues.value = values;
   selected.value = output[0] ?? null;
-  if (selected.value) {
-    targetPath.value = "";
-    targetType.value = selected.value.type;
-  } else {
-    targetPath.value = "";
-    targetType.value = "string";
-  }
+  targetPath.value = "";
   uploadMessage.value = `${sourceLabel}: found ${output.length} fields`;
   uploadError.value = "";
   configMessage.value = "";
@@ -205,14 +190,10 @@ async function importConfig(event: Event) {
       entries.some(([, target]) => typeof target !== "string" || !target.trim())
     )
       throw new Error("Every config value must be a target path string");
-    const types = new Map(
-      fields.value.map((field) => [field.path, field.type]),
-    );
     rules.value = entries.map(([source, target], index) => ({
       id: Date.now() + index,
       source,
       target: target as string,
-      dataType: types.get(source) ?? "string",
     }));
     configMessage.value = `${file.name}: loaded ${entries.length} mapping rules`;
     saved.value = false;
@@ -229,7 +210,6 @@ function pick(field: SourceField) {
   selected.value = field;
   const existingRule = rules.value.find((rule) => rule.source === field.path);
   targetPath.value = existingRule?.target ?? "";
-  targetType.value = existingRule?.dataType ?? field.type;
 }
 function addRule() {
   if (!selected.value || !targetPath.value.trim()) return;
@@ -240,7 +220,6 @@ function addRule() {
     id: Date.now(),
     source: selected.value.path,
     target: targetPath.value.trim(),
-    dataType: targetType.value,
   });
   saved.value = false;
 }
@@ -261,23 +240,6 @@ function dropRule(targetId: number) {
   rules.value.splice(targetIndex, 0, moved);
   draggingId.value = null;
   saved.value = false;
-}
-function cast(value: unknown, type: DataType): unknown {
-  if (Array.isArray(value))
-    return value.map((item) =>
-      cast(item, type === "array" ? inferType(item) : type),
-    );
-  if (type === "number") return Number(value);
-  if (type === "boolean")
-    return value === true || value === "true" || value === 1 || value === "1";
-  if (type === "string" || type === "date") return String(value);
-  if (type === "object") {
-    if (value === null || value === undefined) return {};
-    if (typeof value === "object") return value;
-    return { value };
-  }
-  if (type === "array") return Array.isArray(value) ? value : [value];
-  return value;
 }
 function assignTargetValue(
   output: Record<string, unknown>,
@@ -336,7 +298,7 @@ function buildOutput() {
     assignTargetValue(
       output,
       rule.target,
-      cast(sourceValues.value[rule.source], rule.dataType),
+      sourceValues.value[rule.source],
     );
   }
   return output;
@@ -348,7 +310,6 @@ function clearData() {
   sourceSearch.value = "";
   selected.value = null;
   targetPath.value = "";
-  targetType.value = "string";
   manualData.value = "";
   uploadMessage.value = "";
   uploadError.value = "";
@@ -465,7 +426,7 @@ function save() {
       <section class="editor-panel panel">
         <div class="panel-heading">
           <h2>2. กำหนด output</h2>
-          <p>แก้ชื่อปลายทางและชนิดข้อมูลก่อนเพิ่ม</p>
+          <p>กำหนดชื่อปลายทางก่อนเพิ่ม</p>
         </div>
         <div class="selection-card">
           <span class="label">Source field</span
@@ -479,17 +440,8 @@ function save() {
               v-model="targetPath"
               class="target-input"
               placeholder="e.g. amount.min or fieldCheck.details[].checkType" /></label
-          ><label class="label" for="target-type"
-            >Output type<select id="target-type" v-model="targetType">
-              <option v-for="type in dataTypes" :key="type" :value="type">
-                {{ type }}
-              </option>
-            </select></label
           >
         </div>
-        <p class="helper">
-          เลือก type เพื่อ convert ค่า เช่น string → number ก่อนสร้าง output
-        </p>
         <button
           class="primary-button add-button"
           type="button"
@@ -519,7 +471,6 @@ function save() {
             <span class="drag-handle" aria-hidden="true">⠿</span
             ><code>{{ rule.source }}</code
             ><span>→</span><code>{{ rule.target }}</code
-            ><small>{{ rule.dataType }}</small
             ><button
               class="remove-button"
               type="button"

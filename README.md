@@ -70,12 +70,11 @@ Examples:
 - `pricing.minAmount`
 - `customer.requiredFieldCheckDetail[].type`
 
-### 3. Set target path and type
+### 3. Set target path
 
 In the middle panel:
 
 - choose the output target path, for example `meta.group`
-- choose the output type, such as `string`, `number`, or `array`
 - click "Add mapping"
 
 ### 4. Review mappings

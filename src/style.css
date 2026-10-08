@@ -326,7 +326,7 @@ h2 {
 .form-grid {
   display: grid;
   gap: 12px;
-  grid-template-columns: 1fr 130px;
+  grid-template-columns: minmax(0, 1fr);
   margin: 0 16px;
 }
 .form-grid .label {
@@ -356,7 +356,7 @@ h2 {
 }
 .rule-list li {
   cursor: grab;
-  grid-template-columns: 18px minmax(0, 1fr) 18px minmax(0, 1fr) 52px 28px;
+  grid-template-columns: 18px minmax(0, 1fr) 18px minmax(0, 1fr) 28px;
 }
 .rule-list li.dragging {
   background: #edf4ff;
