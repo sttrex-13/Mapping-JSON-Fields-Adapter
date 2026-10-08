@@ -227,8 +227,9 @@ async function importConfig(event: Event) {
 }
 function pick(field: SourceField) {
   selected.value = field;
-  targetPath.value = "";
-  targetType.value = field.type;
+  const existingRule = rules.value.find((rule) => rule.source === field.path);
+  targetPath.value = existingRule?.target ?? "";
+  targetType.value = existingRule?.dataType ?? field.type;
 }
 function addRule() {
   if (!selected.value || !targetPath.value.trim()) return;
