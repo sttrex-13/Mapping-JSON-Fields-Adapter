@@ -666,7 +666,7 @@ function downloadOutput() {
                 id="target-path"
                 v-model="targetPath"
                 class="rounded-xl border border-slate-200 px-3 py-2.5 font-normal outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
-                placeholder="e.g. amount.min or fieldCheck.details"
+                placeholder="e.g. object or object.field"
             /></label>
             <fieldset>
               <legend class="mb-2 text-sm font-semibold text-slate-700">
@@ -718,7 +718,7 @@ function downloadOutput() {
                 id="segment-name"
                 v-model="segmentName"
                 class="rounded-lg border border-violet-200 bg-white px-3 py-2.5 font-normal outline-none transition placeholder:text-slate-400 focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
-                placeholder="e.g. checkType or personal.firstName"
+                placeholder="e.g. value or value.segment"
               /><span class="text-xs font-normal text-slate-500"
                 >ชื่อ property ที่อยู่ในแต่ละ item ของ array</span
               ></label
