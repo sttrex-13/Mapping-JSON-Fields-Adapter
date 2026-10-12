@@ -1,0 +1,102 @@
+{
+  "programGroup": "TITLE_LOAN",
+  "programSubGroup": "SECURED_SINGLE",
+  "programCategory": "TERM_LOAN",
+  "programSubCategory": "CAR_LOAN",
+  "basicInformation": {
+    "programCode": "Program_Car_01",
+    "programName": "โครงการสินเชื่อรถยนต์มาตรฐาน",
+    "programMarketingName": "สินเชื่อรถยนต์ ดอกเบี้ยพิเศษ",
+    "programDescription": "โครงการสินเชื่อรถยนต์สำหรับลูกค้าบุคคลธรรมดา",
+    "status": "Active",
+    "effectiveStartDate": "05/08/2026",
+    "effectiveEndDate": "31/12/2026"
+  },
+  "programInformation": {
+    "programStatus": "Promotion",
+    "caRecommend": true,
+    "programType": "New",
+    "allowedSaleChannel": [
+      "Branch",
+      "Online"
+    ],
+    "disbursementMethod": [
+      "DM001",
+      "DM002"
+    ],
+    "allowedReferChannel": [
+      "Dealer",
+      "Agent",
+      "Branch",
+      "Online"
+    ],
+    "programHighlight": "Hot"
+  },
+  "collateral": {
+    "collateral": [
+      "VEHICLE",
+      "LAND"
+    ],
+    "vehicle": [
+      "HEAD",
+      "TRAILER"
+    ],
+    "landType": [
+      "VACANT_LAND",
+      "LAND_WITH_BUILDING"
+    ],
+    "landDocumentType": [
+      "NS4",
+      "NS3K",
+      "OR2"
+    ],
+    "carBrand": [
+      "TOYOTA",
+      "HONDA",
+      "ISUZU"
+    ],
+    "minAssetAgeYear": 0,
+    "maxAssetAgeYear": 15,
+    "minOwnershipAgeDay": 30,
+    "allowedVehicleClass": [
+      "RY1",
+      "RY2",
+      "RY3"
+    ]
+  },
+  "customer": {
+    "customerType": "Individual",
+    "customerSegment": "Normal",
+    "ncbGrade": [
+      "A",
+      "B",
+      "C"
+    ],
+    "nationality": [
+      "TH"
+    ],
+    "minCustomerAgeYear": 21,
+    "maxCustomerAgeYear": 65,
+    "requiredGuarantor": false,
+    "requiredFieldCheck": true,
+    "requiredFieldCheckDetail": [
+      "HOME",
+      "WORKPLACE"
+    ],
+    "requiredNcb": true,
+    "requiredIncomeDocument": true
+  },
+  "pricing": {
+    "minAmount": 50000,
+    "maxAmount": 2000000,
+    "minLtvPercent": 50.00,
+    "maxLtvPercent": 90.00,
+    "minTenor": 12,
+    "maxTenor": 84,
+    "interestType": "Flat",
+    "minInterestYear": 8.50,
+    "maxInterestYear": 15.99,
+    "minInterestMonth": 0.71,
+    "maxInterestMonth": 1.33
+  }
+}
